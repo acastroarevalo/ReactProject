@@ -1,15 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import ProductItem from "./ProductItem";
 import useHttp from "../hooks/useHttp";
 import Error from "./Error";
 import Pagination from '@mui/material/Pagination';
-import WishlistContext from "../store/WishlistContext";
 
 const requestConfig = {};
 
 export default function Products(){
     const [page, setPage] = useState(1);
-    const wishCtx = useContext(WishlistContext);
 
     const {
         data: loadedProducts,

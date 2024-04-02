@@ -1,38 +1,38 @@
-import { useContext } from 'react';
 import logoImg from '../assets/logo.jpg'
 import Button from './UI/Button';
-import CartContext from '../store/CartContext';
-import UserProgressContext from '../store/UserProgressContext';
-import LoginStateContext from '../store/LoginStateContext';
 import SearchBar from './UI/SearchBar';
+import { useDispatch, useSelector } from 'react-redux';
+import { userProgressActions } from '../redux-store/userProgressSlice';
 
 export default function Header() {
-    const cartCtx = useContext(CartContext);
-    const userProgressCtx = useContext(UserProgressContext);
-    const loginStateCtx = useContext(LoginStateContext);
+    const dispatch = useDispatch();
+    const loginStateData = useSelector(state => state.loginState);
+    const cartData = useSelector(state => state.cart);
 
-    const totalCartItems = cartCtx.items.reduce((totalNumberOfItems, item) => {
+    console.log(cartData);
+
+    const totalCartItems = cartData.items.reduce((totalNumberOfItems, item) => {
         return totalNumberOfItems + item.quantity;
     }, 0)
 
     function handleShowCart(){
-        userProgressCtx.showCart();
+        dispatch(userProgressActions.showCart());
     }
 
     function handleShowWishlist(){
-        userProgressCtx.showWishlist();
+        dispatch(userProgressActions.showWishlist());
     }
 
     function handleShowOrders(){
-        userProgressCtx.showOrders();
+        dispatch(userProgressActions.showOrders());
     }
 
     function handleShowUser(){
-        userProgressCtx.showUser();
+        dispatch(userProgressActions.showUser());
     }
 
     function handleLogin(){
-        userProgressCtx.showLogin();
+        dispatch(userProgressActions.showLogin());
     }
 
     return (
@@ -42,8 +42,8 @@ export default function Header() {
                 <h1>MarketApp</h1>
             </div>
             <nav>
-                <Button textOnly onClick={() => loginStateCtx.loginStatus === '' ? handleLogin() : handleShowUser()}>
-                    {loginStateCtx.loginStatus === '' ? 'Login' : 'User'}
+                <Button textOnly onClick={() => loginStateData.loginStatus === '' ? handleLogin() : handleShowUser()}>
+                    {loginStateData.loginStatus === '' ? 'Login' : 'User'}
                 </Button>
                 <Button textOnly onClick={handleShowOrders}>
                     Orders

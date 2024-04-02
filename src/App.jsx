@@ -15,12 +15,7 @@ import Login from "./components/Login";
 
 function App() {
   return (
-    <LoginStateContextProvider>
-    <UserProgressContextProvider>
-      <UserContextProvider>
-      <WishlistContextProvider>
-      <CartContextProvider>
-      <OrdersContextProvider>
+      <>
         <Header/>
         <Products/>
         <Cart/>
@@ -29,12 +24,7 @@ function App() {
         <OrderHistory/>
         <User/>
         <Login/>
-      </OrdersContextProvider>
-      </CartContextProvider>
-      </WishlistContextProvider>
-      </UserContextProvider>
-    </UserProgressContextProvider>
-    </LoginStateContextProvider>
+      </>
   );
 }
 

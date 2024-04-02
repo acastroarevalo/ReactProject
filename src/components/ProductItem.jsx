@@ -1,19 +1,29 @@
-import { useContext, useEffect } from 'react';
 import Button from './UI/Button';
-import CartContext from '../store/CartContext';
-import WishlistContext from '../store/WishlistContext';
+import { useDispatch } from 'react-redux';
+import { wishlistActions } from '../redux-store/wishlistSlice';
+import { cartActions } from '../redux-store/cartSlice';
 
 export default function ProductItem({product}){
-    const cartCtx = useContext(CartContext);
-    const wishCtx = useContext(WishlistContext);
+    const dispatch = useDispatch();
 
     function handleAddProductToCart(){
-        cartCtx.addItem(product);
-        
+        dispatch(cartActions.addItem({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            image: product.image,
+        }))
     }
 
     function handleAddProductToWishlist(){
-        wishCtx.addItem(product);
+        dispatch(wishlistActions.addItem({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            image: product.image
+        }));
     }
 
     return(

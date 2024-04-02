@@ -1,25 +1,27 @@
-import { useContext } from "react";
 import Modal from "./UI/Modal";
-import UserProgressContext from "../store/UserProgressContext";
 import Button from "./UI/Button";
-import OrdersContext from "../store/OrderHistoryContext";
 import OrderHistoryItem from "./OrderHistoryItem";
+import { useDispatch, useSelector } from "react-redux";
+import { userProgressActions } from "../redux-store/userProgressSlice";
 
 export default function OrderHistory(){
-    const ordersCtx = useContext(OrdersContext);
-    const userProgressCtx = useContext(UserProgressContext);
+    const dispatch = useDispatch();
+    const userProgressData = useSelector(state => state.userProgress);
+    const ordersData = useSelector(state => state.orders);
+
+    console.log(ordersData);
 
     function handleCloseOrders(){
-        userProgressCtx.hide();
+        dispatch(userProgressActions.hide());
     }
 
     return(
         <Modal className="cart" 
-        open={userProgressCtx.progress === 'orders'} 
-        onClose={userProgressCtx.progress === 'orders' ? handleCloseOrders : null}>
+        open={userProgressData.progress === 'orders'} 
+        onClose={userProgressData.progress === 'orders' ? handleCloseOrders : null}>
             <h2>Order History</h2>
             <ol>
-                {ordersCtx.items.map((item) => (
+                {ordersData.items.map((item) => (
                     <OrderHistoryItem
                         order={item}/>)
                     )}

@@ -1,39 +1,39 @@
-import { useContext, useEffect } from "react";
-import UserProgressContext from "../store/UserProgressContext";
+import {useDispatch, useSelector} from 'react-redux'
 import Modal from "./UI/Modal";
 import Button from "./UI/Button";
-import LoginStateContext from "../store/LoginStateContext";
-import UserContext from "../store/UserContext";
+import { userActions } from "../redux-store/userSlice";
+import { loginStateActions } from "../redux-store/loginStateSlice";
+import { userProgressActions } from "../redux-store/userProgressSlice";
 
 export default function User(){
-    const userProgressCtx = useContext(UserProgressContext);
-    const loginStateCtx = useContext(LoginStateContext);
-    const userCtx = useContext(UserContext);
+    const dispatch = useDispatch();
+    const userData = useSelector(state => state.user);
+    const loginStateData = useSelector(state => state.loginState);
+    const userProgressData = useSelector(state => state.userProgress);
 
     function handleLogout(){
-        userCtx.logoutUser();
-        loginStateCtx.logout();
-        userProgressCtx.hide();
-        console.log(userCtx.user);
+        dispatch(userActions.logoutUser());
+        dispatch(loginStateActions.logout());
+        dispatch(userProgressActions.hide());
     }
 
     function handleEdit(){
-        loginStateCtx.edit();
-        userProgressCtx.showLogin();
+        dispatch(loginStateActions.edit());
+        dispatch(userProgressActions.showLogin());
     }
 
     function handleCloseUser(){
-        userProgressCtx.hide();
+        dispatch(userProgressActions.hide());
     }
 
     return(
         <Modal className="user" 
-        open={userProgressCtx.progress === 'user'} 
-        onClose={userProgressCtx.progress === 'user' ? handleCloseUser : null}>
+        open={userProgressData.progress === 'user'} 
+        onClose={userProgressData.progress === 'user' ? handleCloseUser : null}>
         <h2>User</h2>
-        <p>Name: {loginStateCtx.loginStatus === '' ? undefined : userCtx.user.user.name}</p>
-        <p>Last Name: {loginStateCtx.loginStatus === '' ? undefined : userCtx.user.user.lastName}</p>
-        <p>Email: {loginStateCtx.loginStatus === '' ? undefined : userCtx.user.user.email}</p>
+        <p>Name: {loginStateData.loginStatus === '' ? undefined : userData.user.name}</p>
+        <p>Last Name: {loginStateData.loginStatus === '' ? undefined : userData.user.lastName}</p>
+        <p>Email: {loginStateData.loginStatus === '' ? undefined : userData.user.email}</p>
         <p className="modal-actions">
             <Button textOnly onClick={handleLogout}>Logout</Button>
             <Button textOnly onClick={handleEdit}>Edit</Button>

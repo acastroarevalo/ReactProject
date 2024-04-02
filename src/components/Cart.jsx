@@ -1,43 +1,44 @@
-import { useContext } from "react";
 import Modal from "./UI/Modal";
-import CartContext from "../store/CartContext";
 import Button from "./UI/Button";
-import UserProgressContext from '../store/UserProgressContext';
 import CartItem from "./CartItem";
+import { useDispatch, useSelector } from "react-redux";
+import { userProgressActions } from "../redux-store/userProgressSlice";
+import { cartActions } from "../redux-store/cartSlice";
 
 export default function Cart(){
-    const cartCtx = useContext(CartContext);
-    const userProgressCtx = useContext(UserProgressContext);
+    const dispatch = useDispatch();
+    const userProgressData = useSelector(state => state.userProgress);
+    const cartData = useSelector(state => state.cart);
 
-    const cartTotal = cartCtx.items.reduce((totalPrice, item) => totalPrice + (item.quantity * item.price), 0);
+    const cartTotal = cartData.items.reduce((totalPrice, item) => totalPrice + (item.quantity * item.price), 0);
 
     function handleCloseCart(){
-        userProgressCtx.hide();
+        dispatch(userProgressActions.hide());
     }
 
     function handleGoToCheckout(){
-        userProgressCtx.showCheckout();
+        dispatch(userProgressActions.showCheckout());
     }
     return (
         <Modal className="cart" 
-            open={userProgressCtx.progress === 'cart'} 
-            onClose={userProgressCtx.progress === 'cart' ? handleCloseCart : null}>
+            open={userProgressData.progress === 'cart'} 
+            onClose={userProgressData.progress === 'cart' ? handleCloseCart : null}>
             <h2>Cart</h2>
             <ul>
-                {cartCtx.items.map((item) => (
+                {cartData.items.map((item) => (
                     <CartItem 
                     key={item.id}
                     name={item.name}
                     quantity={item.quantity}
                     price={item.price}
-                    onDecrease={() => cartCtx.removeItem(item.id)}
-                    onIncrease={() => cartCtx.addItem(item)} />
+                    onDecrease={() => dispatch(cartActions.removeItem(item.id))}
+                    onIncrease={() => dispatch(cartActions.addItem(item))} />
                 ))}
             </ul>
             <p className="cart-total">{`$${cartTotal}`}</p>
             <p className="modal-actions">
                 <Button textOnly onClick={handleCloseCart}>Close</Button>
-                {cartCtx.items.length > 0 ? (
+                {cartData.items.length > 0 ? (
                     <Button onClick={handleGoToCheckout}>Go to Checkout</Button>
                 ) : null }
             </p>

@@ -1,43 +1,47 @@
-import { useContext } from "react"
-import UserProgressContext from "../store/UserProgressContext"
 import Modal from "./UI/Modal";
 import Button from './UI/Button';
 import Input from "./UI/Input";
-import LoginStateContext from "../store/LoginStateContext";
-import UserContext from "../store/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import { userActions } from "../redux-store/userSlice";
+import { loginStateActions } from "../redux-store/loginStateSlice";
+import { userProgressActions } from "../redux-store/userProgressSlice";
 
 export default function Login(){
-    const userProgressCtx =  useContext(UserProgressContext);
-    const loginStateCtx = useContext(LoginStateContext);
-    const userCtx = useContext(UserContext);
+    const dispatch = useDispatch();
+    const loginStateData = useSelector(state => state.loginState);
+    const userProgressData = useSelector(state => state.userProgress);
 
     function handleLogin(){
-        loginStateCtx.login();
-        userProgressCtx.hide();
+        dispatch(loginStateActions.login());
+        dispatch(userProgressActions.hide());
     }
 
     function handleClose(){
-        userProgressCtx.hide();
+        dispatch(userProgressActions.hide());
     }
 
     function handleSubmit(event){
         event.preventDefault();
         const fd = new FormData(event.target);
         const userData = Object.fromEntries(fd.entries());
-        userCtx.updateUser(userData);
+        console.log(userData.name);
+        dispatch(userActions.updateUser({
+            name: userData.name,
+            lastName: userData.lastName,
+            email: userData.email
+        }));
         handleLogin();
-        console.log(userCtx.user);
     }
 
     return(
-        <Modal open={userProgressCtx.progress === 'login'} onClose={handleClose}>
+        <Modal open={userProgressData.progress === 'login'} onClose={handleClose}>
             <form onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 <Input label="Name" type="text" id="name" />
                 <Input label="LastName" type="text" id="lastName" />
                 <Input label="E-mail" type="email" id="email" />
                 <p className="modal-actions">
-                    <Button>{loginStateCtx.loginStatus === 'edit' ? 'Save' : 'Login'}</Button>
+                    <Button>{loginStateData.loginStatus === 'edit' ? 'Save' : 'Login'}</Button>
                     <Button type="button" textOnly onClick={handleClose}>Close</Button>
                 </p>
             </form>
