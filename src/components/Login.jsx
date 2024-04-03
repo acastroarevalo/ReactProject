@@ -34,7 +34,7 @@ export default function Login(){
     }
 
     return(
-        <Modal open={userProgressData.progress === 'login'} onClose={handleClose}>
+        <Modal open={userProgressData.progress === 'login'} onClose={handleLogin}>
             <form onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 <Input label="Name" type="text" id="name" />
@@ -42,7 +42,7 @@ export default function Login(){
                 <Input label="E-mail" type="email" id="email" />
                 <p className="modal-actions">
                     <Button>{loginStateData.loginStatus === 'edit' ? 'Save' : 'Login'}</Button>
-                    <Button type="button" textOnly onClick={handleClose}>Close</Button>
+                    <Button type="button" textOnly onClick={handleLogin}>Close</Button>
                 </p>
             </form>
         </Modal>
