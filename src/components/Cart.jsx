@@ -27,11 +27,11 @@ export default function Cart(){
             <ul>
                 {cartData.items.map((item) => (
                     <CartItem 
-                    key={item.id}
+                    key={item.productId}
                     name={item.name}
                     quantity={item.quantity}
                     price={item.price}
-                    onDecrease={() => dispatch(cartActions.removeItem(item.id))}
+                    onDecrease={() => dispatch(cartActions.removeItem(item.productId))}
                     onIncrease={() => dispatch(cartActions.addItem(item))} />
                 ))}
             </ul>

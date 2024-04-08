@@ -8,7 +8,7 @@ export default function ProductItem({product}){
 
     function handleAddProductToCart(){
         dispatch(cartActions.addItem({
-            id: product.id,
+            productId: product.productId,
             name: product.name,
             price: product.price,
             description: product.description,
@@ -18,7 +18,7 @@ export default function ProductItem({product}){
 
     function handleAddProductToWishlist(){
         dispatch(wishlistActions.addItem({
-            id: product.id,
+            productId: product.productId,
             name: product.name,
             price: product.price,
             description: product.description,
@@ -29,7 +29,7 @@ export default function ProductItem({product}){
     return(
         <li className="meal-item">
             <article>
-                <img src={`http://localhost:3000/${product.image}`} alt={product.name} />
+                <img /*src={`http://localhost:3000/${product.image}`}*/ src={product.image} alt={product.name} />
                 <div>
                     <h3>{product.name}</h3>
                     <p className="meal-item-price">{`$${product.price}`}</p>

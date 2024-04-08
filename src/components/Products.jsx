@@ -9,18 +9,35 @@ const requestConfig = {};
 export default function Products(){
     const [page, setPage] = useState(1);
 
-    const {
+    /*const {
         data: loadedProducts,
         isLoading,
         error} = useHttp('http://localhost:3000/meals', requestConfig, []);
-
+        
     if(isLoading){
         return <p className="center">Loading data...</p>
     }
 
     if(error){
         return <Error title="Failed to load" message={error}/>
+    }*/
+
+    const {
+        data: loadedProducts,
+        isLoading: loading,
+        error: error} = useHttp('http://localhost:8080/shopcart/api/products', requestConfig, []);
+
+    if(loading){
+        console.log("Loading backend");
+        return <p className="center">Loading data...</p>
     }
+
+    if(error){
+        console.log("Loading backend error");
+        return <Error title="Failed to load" message={error}/>
+    }
+    
+    //console.log(loadedProducts);
 
     const postsPerPage = 3;
     const lastPostIndex = page * postsPerPage;
@@ -36,7 +53,7 @@ export default function Products(){
         <Pagination count={totalPages} color="primary" onChange={handleChange} className="pagination"/>
         <ul id="meals">
             {currentPosts.map((product) => (
-                <ProductItem key={product.id} product={product} />
+                <ProductItem key={product.productId} product={product} />
                 ))}
         </ul>
         </>

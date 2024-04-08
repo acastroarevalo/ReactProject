@@ -27,17 +27,17 @@ export default function Wishlist(){
             <ul>
                 {wishlistData.items.map((item) => (
                     <WishlistItem
-                    key={item.id}
+                    key={item.productId}
                     name={item.name}
                     price={item.price}
                     onAddToCart={() => dispatch(cartActions.addItem({
-                        id: item.id,
+                        productId: item.productId,
                         name: item.name,
                         price: item.price,
                         description: item.description,
                         image: item.image,
                     }))}
-                    onDelete={() => dispatch(wishlistActions.removeItem(item.id))} />
+                    onDelete={() => dispatch(wishlistActions.removeItem(item.productId))} />
                 ))}
             </ul>
             <p className="modal-actions">

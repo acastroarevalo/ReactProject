@@ -9,13 +9,13 @@ const wishlistSlice = createSlice({
     reducers: {
         addItem: (state, action) => {
             const newItem = action.payload;
-            const existingWishlistItem = state.items.find((item) => item.id === newItem.id);
+            const existingWishlistItem = state.items.find((item) => item.productId === newItem.productId);
     
             if(existingWishlistItem){
                 alert("Product already in wishlist")
             }else {
                 state.items.push({
-                    id: newItem.id,
+                    productId: newItem.productId,
                     name: newItem.name,
                     price: newItem.price,
                     description: newItem.description,
@@ -27,7 +27,7 @@ const wishlistSlice = createSlice({
         },
         removeItem: (state, action) => {
             const newItem = action.payload;
-            state.items = state.items.filter(item => item.id !== newItem);
+            state.items = state.items.filter(item => item.productId !== newItem);
             setItemFunc({items: state.items});
         },
         clearWishlist: (state) => {
