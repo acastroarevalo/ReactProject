@@ -28,16 +28,12 @@ export default function Products(){
         error: error} = useHttp('http://localhost:8080/shopcart/api/products', requestConfig, []);
 
     if(loading){
-        console.log("Loading backend");
         return <p className="center">Loading data...</p>
     }
 
     if(error){
-        console.log("Loading backend error");
         return <Error title="Failed to load" message={error}/>
     }
-    
-    //console.log(loadedProducts);
 
     const postsPerPage = 3;
     const lastPostIndex = page * postsPerPage;

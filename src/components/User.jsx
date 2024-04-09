@@ -10,7 +10,7 @@ export default function User(){
     const userData = useSelector(state => state.user);
     const loginStateData = useSelector(state => state.loginState);
     const userProgressData = useSelector(state => state.userProgress);
-    console.log(userData);
+    //console.log(userData);
 
     function handleLogout(){
         dispatch(userActions.logoutUser());

@@ -12,6 +12,8 @@ import User from "./components/User";
 import { LoginStateContextProvider } from "./store/LoginStateContext";
 import { UserContextProvider } from "./store/UserContext";
 import Login from "./components/Login";
+import AddProduct from "./components/AddProduct";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <OrderHistory/>
         <User/>
         <Login/>
+        <AddProduct/>
+        <SignUp/>
       </>
   );
 }

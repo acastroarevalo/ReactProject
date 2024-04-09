@@ -9,7 +9,7 @@ export default function OrderHistory(){
     const userProgressData = useSelector(state => state.userProgress);
     const ordersData = useSelector(state => state.orders);
 
-    console.log(ordersData);
+    //console.log(ordersData);
 
     function handleCloseOrders(){
         dispatch(userProgressActions.hide());

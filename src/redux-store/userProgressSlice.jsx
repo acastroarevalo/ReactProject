@@ -22,6 +22,12 @@ const userProgressSlice = createSlice({
         showLogin: (state) => {
             state.progress = 'login';
         },
+        showAddProduct: (state) => {
+            state.progress = 'addProduct';
+        },
+        showSignUp: (state) => {
+            state.progress = 'signUp';
+        },
         hide: (state) => {
             state.progress = '';
         }

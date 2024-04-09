@@ -9,7 +9,7 @@ export default function Header() {
     const loginStateData = useSelector(state => state.loginState);
     const cartData = useSelector(state => state.cart);
 
-    console.log(cartData);
+    //console.log(cartData);
 
     const totalCartItems = cartData.items.reduce((totalNumberOfItems, item) => {
         return totalNumberOfItems + item.quantity;
@@ -35,6 +35,10 @@ export default function Header() {
         dispatch(userProgressActions.showLogin());
     }
 
+    function handleAddProduct(){
+        dispatch(userProgressActions.showAddProduct());
+    }
+
     return (
         <header id="main-header">
             <div id="title">
@@ -53,6 +57,9 @@ export default function Header() {
                 </Button>
                 <Button textOnly onClick={handleShowCart}>
                     Cart ({totalCartItems})
+                </Button>
+                <Button textOnly onClick={handleAddProduct}>
+                    Add Product
                 </Button>
                 <SearchBar/>
             </nav>
