@@ -82,7 +82,7 @@ export default function SignUp(){
     if(data && !error){
         return(
             <Modal open={userProgressData.progress === 'signUp'} onClose={handleFinish}>
-                <h2>SignUp Successful</h2>
+                <h2>{loginStateData.loginStatus === 'edit' ? 'Edit Successful' : 'SignUp Successful'}</h2>
                 <p className="modal-actions">
                 <Button type="button" textOnly onClick={handleFinish}>Ok</Button>
                 </p>
@@ -94,7 +94,7 @@ export default function SignUp(){
         <Modal open={userProgressData.progress === 'signUp'} 
         onClose={userProgressData.progress === 'signUp' ? handleClose : null}>
             <form onSubmit={handleSubmit}>
-                <h2>Sign Up</h2>
+                <h2>{loginStateData.loginStatus === 'edit' ? 'Edit User' : 'Sign Up'}</h2>
                 <Input label="Name" type="text" id="name" />
                 <Input label="LastName" type="text" id="lastName" />
                 <Input label="E-mail" type="email" id="email" />

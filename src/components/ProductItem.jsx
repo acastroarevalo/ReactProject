@@ -34,6 +34,8 @@ export default function ProductItem({product}){
     }
 
     function handleAddProductToWishlist(){
+        let duplicate = false;
+        
         sendRequest();
         clearData();
         window.location.reload(false);

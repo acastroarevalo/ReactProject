@@ -33,6 +33,10 @@ const wishlistSlice = createSlice({
         clearWishlist: (state) => {
             state.items = [];
             setItemFunc({items: state.items});
+        },
+        copyWishlist: (state, action) => {
+            state.items = action.payload;
+            setItemFunc({items: state.items});
         }
     }
 })

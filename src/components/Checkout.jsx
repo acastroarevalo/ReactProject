@@ -45,16 +45,20 @@ export default function Checkout() {
         event.preventDefault();
         const fd = new FormData(event.target);
         const customerData = Object.fromEntries(fd.entries());
-        const products = cartData.items.map(item => item.name);
-        const quantities = cartData.items.map(item => item.quantity);
+        if(customerData.password === userData.user.pwd){
+            const products = cartData.items.map(item => item.name);
+            const quantities = cartData.items.map(item => item.quantity);
+    
+            sendRequest(JSON.stringify({
+                    products: products.join(),
+                    productsQuantity: quantities.join(),
+                    total: cartTotal
+                })
+            );
+        } else{
+            alert("Incorrect Password");
+        }
 
-        sendRequest(JSON.stringify({
-                products: products.join(),
-                productsQuantity: quantities.join(),
-                total: cartTotal
-            })
-        );
-        //dispatch(ordersActions.addItem(cartData.items));
     }
     
     let actions = (

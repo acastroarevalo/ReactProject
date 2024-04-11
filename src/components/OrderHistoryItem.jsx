@@ -1,15 +1,22 @@
+import { Grid, Paper } from '@mui/material'
+
 export default function OrderHistoryItem({orderId, orderItems, orderQuantities, orderPrice}){
     return (
         <li className="cart-item">
-            <p>{orderId}</p>
-            <p>{orderItems}</p>
-            <p>{orderQuantities}</p>
-            <p>{`$${orderPrice}`}</p>
+            <Grid container spacing={2}>
+                <Grid item xs={3}>
+                    <Paper className="gridItem" style={{ color: 'white', backgroundColor: '#312c1d' }} >{orderId}</Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className="gridItem" style={{ color: 'white', backgroundColor: '#afa699' }} >{orderItems}</Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className="gridItem" style={{ color: 'white', backgroundColor: '#afa699' }} >{orderQuantities}</Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className="gridItem" style={{ color: 'white', backgroundColor: '#afa699' }} >{`$${orderPrice}`}</Paper>
+                </Grid>
+            </Grid>
         </li>
-        /*<li className="cart-item"> 
-        {order.map((item) => {
-            return(<p key={item.id}>{item.name} - {item.quantity} x {`$${item.price}`}</p>)
-        } )} 
-        </li>*/
     )
 }

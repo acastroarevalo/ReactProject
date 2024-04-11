@@ -40,6 +40,8 @@ export default function Wishlist(){
 
     let uw = [];
     loadedWishlist.map(item => item.user.userId === userData.user.userId ? uw.push(item) : undefined);
+    //dispatch(wishlistActions.copyWishlist(uw));
+    //console.log(wishlistData.items);
     /*console.log('loadedWishlist', loadedWishlist);
     console.log('uw:', uw);*/
 
