@@ -3,17 +3,39 @@ import Button from './UI/Button';
 import SearchBar from './UI/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProgressActions } from '../redux-store/userProgressSlice';
+import { wishlistActions } from "../redux-store/wishlistSlice";
+import useHttp from "../hooks/useHttp";
+
+//const requestConfig = {};
 
 export default function Header() {
     const dispatch = useDispatch();
     const loginStateData = useSelector(state => state.loginState);
     const cartData = useSelector(state => state.cart);
-
-    //console.log(cartData);
+    /*const userData = useSelector(state => state.user);
+    const wishlistData = useSelector(state => state.wishlist);*/
 
     const totalCartItems = cartData.items.reduce((totalNumberOfItems, item) => {
         return totalNumberOfItems + item.quantity;
     }, 0)
+
+    /*const {
+        data: loadedWishlist,
+        isLoading: loadingWishlist,
+        error: errorWishlist} = useHttp('http://localhost:8080/shopcart/api/wishlist', requestConfig, []);
+
+    if(loadingWishlist){
+        return <p className="center">Loading data...</p>
+    }
+    
+    if(errorWishlist){
+        return <Error title="Failed to load data" message={error}/>
+    }
+
+    let uw = [];
+    loadedWishlist.map(item => item.user.userId === userData.user.userId ? uw.push(item) : undefined);
+    console.log('loadedWishlist', loadedWishlist);
+    console.log('uw:', uw);*/
 
     function handleShowCart(){
         dispatch(userProgressActions.showCart());

@@ -4,6 +4,7 @@ import Input from "./UI/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { userProgressActions } from "../redux-store/userProgressSlice";
 import { loginStateActions } from "../redux-store/loginStateSlice";
+import { userActions } from "../redux-store/userSlice";
 import useHttp from "../hooks/useHttp";
 
 const requestConfig = {
@@ -13,10 +14,18 @@ const requestConfig = {
     }
 };
 
+const requestConfigEdit = {
+    method: 'PATCH',
+    headers: {
+        'Content-type': 'application/json'
+    }
+};
+
 export default function SignUp(){
     const dispatch = useDispatch();
     const loginStateData = useSelector(state => state.loginState);
     const userProgressData = useSelector(state => state.userProgress);
+    const userData = useSelector(state => state.user);
 
     const {
         data,
@@ -24,13 +33,19 @@ export default function SignUp(){
         error,
         sendRequest,
         clearData
-    } = useHttp('http://localhost:8080/shopcart/api/users', requestConfig);
+    } = loginStateData.loginStatus === 'edit' ? 
+    useHttp(`http://localhost:8080/shopcart/api/users/${userData.user.userId}`, requestConfigEdit) :
+    useHttp('http://localhost:8080/shopcart/api/users', requestConfig);
 
     function handleClose(){
+        loginStateData.loginStatus === 'edit' ?
+        dispatch(loginStateActions.login()) : 
+        dispatch(loginStateActions.logout());
         dispatch(userProgressActions.hide());
     }
 
     function handleFinish(){
+        dispatch(loginStateActions.login());
         dispatch(userProgressActions.hide());
         clearData();
     }
@@ -42,7 +57,16 @@ export default function SignUp(){
 
         sendRequest(JSON.stringify(signUpData));
 
-        console.log(signUpData);
+        //add loginStatus check to add userId when creating new user
+        dispatch(userActions.updateUser({
+            userId: userData.user.userId,
+            name: signUpData.name,
+            lastName: signUpData.lastName,
+            email: signUpData.email,
+            bio: signUpData.bio,
+            interests: signUpData.areaOfInterest,
+            pwd: signUpData.pwd
+        }));
     }
 
     let actions = (
@@ -67,7 +91,8 @@ export default function SignUp(){
     }
 
     return(
-        <Modal open={userProgressData.progress === 'signUp'} onClose={handleClose}>
+        <Modal open={userProgressData.progress === 'signUp'} 
+        onClose={userProgressData.progress === 'signUp' ? handleClose : null}>
             <form onSubmit={handleSubmit}>
                 <h2>Sign Up</h2>
                 <Input label="Name" type="text" id="name" />

@@ -19,6 +19,7 @@ export default function Checkout() {
     const dispatch = useDispatch();
     const userProgressData = useSelector(state => state.userProgress);
     const cartData = useSelector(state => state.cart);
+    const userData = useSelector(state => state.user);
 
     const {
         data,
@@ -26,7 +27,7 @@ export default function Checkout() {
         error,
         sendRequest,
         clearData
-    } = useHttp('http://localhost:3000/orders', requestConfig);
+    } = useHttp(`http://localhost:8080/shopcart/api/orders/${userData.user.userId}`, requestConfig);
 
     const cartTotal = cartData.items.reduce((totalPrice, item) => totalPrice + (item.quantity * item.price), 0);
 
@@ -44,15 +45,16 @@ export default function Checkout() {
         event.preventDefault();
         const fd = new FormData(event.target);
         const customerData = Object.fromEntries(fd.entries());
+        const products = cartData.items.map(item => item.name);
+        const quantities = cartData.items.map(item => item.quantity);
 
         sendRequest(JSON.stringify({
-                order: {
-                    items: cartData.items,
-                    customer: customerData
-                }
+                products: products.join(),
+                productsQuantity: quantities.join(),
+                total: cartTotal
             })
         );
-        dispatch(ordersActions.addItem(cartData.items));
+        //dispatch(ordersActions.addItem(cartData.items));
     }
     
     let actions = (
@@ -81,13 +83,7 @@ export default function Checkout() {
             <form onSubmit={handleSubmit}>
                 <h2>Checkout</h2>
                 <p>Total: {cartTotal}</p>
-                <Input label="Full Name" type="text" id="name" />
-                <Input label="E-mail" type="email" id="email" />
-                <Input label="Street" type="text" id="street" />
-                <div className="control-row">
-                    <Input label="Postal Code" type="text" id="postal-code" />
-                    <Input label="City" type="text" id="city" />
-                </div>
+                <Input label="Password" type="text" id="password" />
                 {error && <Error title="Submission failed" message={error}/>}
                 <p className="modal-actions">
                     {actions}

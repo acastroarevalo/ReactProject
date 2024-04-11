@@ -11,7 +11,6 @@ const requestConfig = {};
 
 export default function Login(){
     const dispatch = useDispatch();
-    const loginStateData = useSelector(state => state.loginState);
     const userProgressData = useSelector(state => state.userProgress);
 
     const {
@@ -38,12 +37,20 @@ export default function Login(){
         const userData = Object.fromEntries(fd.entries());
         const loginUser = loadedData.find((item) => item.email === userData.email);
 
-        dispatch(userActions.updateUser({
-            name: loginUser.name,
-            lastName: loginUser.lastName,
-            email: loginUser.email
-        }));
-        handleLogin();
+        if(userData.password === loginUser.pwd){
+            dispatch(userActions.updateUser({
+                userId: loginUser.userId,
+                name: loginUser.name,
+                lastName: loginUser.lastName,
+                email: loginUser.email,
+                bio: loginUser.bio,
+                interests: loginUser.areaOfInterest,
+                pwd: loginUser.pwd
+            }));
+            handleLogin();
+        } else{
+            alert("Incorrect Password");
+        }
     }
 
     return(
@@ -52,11 +59,10 @@ export default function Login(){
         onClose={userProgressData.progress === 'login' ? handleClose : null}>
             <form onSubmit={handleSubmit}>
                 <h2>Login</h2>
-                {/*<Input label="Name" type="text" id="name" />
-                <Input label="LastName" type="text" id="lastName" />*/}
                 <Input label="E-mail" type="email" id="email" />
+                <Input label="Password" type="text" id="password" />
                 <p className="modal-actions">
-                    <Button>{loginStateData.loginStatus === 'edit' ? 'Save' : 'Login'}</Button>
+                    <Button>Login</Button>
                     <Button type="button" onClick={handleSignUp}>Sign Up</Button>
                     <Button type="button" textOnly onClick={handleClose}>Close</Button>
                 </p>

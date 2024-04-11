@@ -3,13 +3,34 @@ import Button from "./UI/Button";
 import OrderHistoryItem from "./OrderHistoryItem";
 import { useDispatch, useSelector } from "react-redux";
 import { userProgressActions } from "../redux-store/userProgressSlice";
+import useHttp from "../hooks/useHttp";
+
+const requestConfig = {};
 
 export default function OrderHistory(){
     const dispatch = useDispatch();
     const userProgressData = useSelector(state => state.userProgress);
     const ordersData = useSelector(state => state.orders);
+    const userData = useSelector(state => state.user);
 
-    //console.log(ordersData);
+    const {
+        data: loadedProducts,
+        isLoading: loading,
+        error: error} = useHttp('http://localhost:8080/shopcart/api/products', requestConfig, []);
+    
+    const {
+        data: loadedOrders} = useHttp('http://localhost:8080/shopcart/api/orders', requestConfig, []);
+
+    if(loading){
+        return <p className="center">Loading data...</p>
+    }
+    
+    if(error){
+        return <Error title="Failed to load data" message={error}/>
+    }
+
+    let uo = [];
+    loadedOrders.map(item => item.user.userId === userData.user.userId ? uo.push(item) : undefined);
 
     function handleCloseOrders(){
         dispatch(userProgressActions.hide());
@@ -20,12 +41,20 @@ export default function OrderHistory(){
         open={userProgressData.progress === 'orders'} 
         onClose={userProgressData.progress === 'orders' ? handleCloseOrders : null}>
             <h2>Order History</h2>
-            <ol>
-                {ordersData.items.map((item) => (
+            <p>Id {'\t'} Items {'\t'} Quantity {'\t'} Total</p>
+            <ul>
+                {/*ordersData.items.map((item) => (
                     <OrderHistoryItem
                         order={item}/>)
-                    )}
-            </ol>
+                    )*/}
+                
+                {uo.map((item) => <OrderHistoryItem
+                    key={item.orderId}
+                    orderId={item.orderId}
+                    orderItems={item.products} 
+                    orderQuantities={item.productsQuantity}
+                    orderPrice={item.total}/>)}
+            </ul>
             <p className="modal-actions">
                 <Button textOnly onClick={handleCloseOrders}>Close</Button>
             </p>

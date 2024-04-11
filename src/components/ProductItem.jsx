@@ -1,10 +1,27 @@
 import Button from './UI/Button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { wishlistActions } from '../redux-store/wishlistSlice';
 import { cartActions } from '../redux-store/cartSlice';
+import useHttp from '../hooks/useHttp';
+
+const requestConfig = {
+    method: 'POST',
+    headers: {
+        'Content-type': 'application/json'
+    }
+};
 
 export default function ProductItem({product}){
     const dispatch = useDispatch();
+    const userData = useSelector(state => state.user);
+
+    const {
+        data,
+        isLoading: isSending,
+        error,
+        sendRequest,
+        clearData
+    } = useHttp(`http://localhost:8080/shopcart/api/wishlist/${userData.user.userId}/${product.productId}`, requestConfig);
 
     function handleAddProductToCart(){
         dispatch(cartActions.addItem({
@@ -17,19 +34,15 @@ export default function ProductItem({product}){
     }
 
     function handleAddProductToWishlist(){
-        dispatch(wishlistActions.addItem({
-            productId: product.productId,
-            name: product.name,
-            price: product.price,
-            description: product.description,
-            image: product.image
-        }));
+        sendRequest();
+        clearData();
+        window.location.reload(false);
     }
 
     return(
         <li className="meal-item">
             <article>
-                <img /*src={`http://localhost:3000/${product.image}`}*/ src={product.image} alt={product.name} />
+                <img src={product.image} alt={product.name} />
                 <div>
                     <h3>{product.name}</h3>
                     <p className="meal-item-price">{`$${product.price}`}</p>

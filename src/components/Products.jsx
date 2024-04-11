@@ -9,19 +9,6 @@ const requestConfig = {};
 export default function Products(){
     const [page, setPage] = useState(1);
 
-    /*const {
-        data: loadedProducts,
-        isLoading,
-        error} = useHttp('http://localhost:3000/meals', requestConfig, []);
-        
-    if(isLoading){
-        return <p className="center">Loading data...</p>
-    }
-
-    if(error){
-        return <Error title="Failed to load" message={error}/>
-    }*/
-
     const {
         data: loadedProducts,
         isLoading: loading,
@@ -30,9 +17,9 @@ export default function Products(){
     if(loading){
         return <p className="center">Loading data...</p>
     }
-
+    
     if(error){
-        return <Error title="Failed to load" message={error}/>
+        return <Error title="Failed to load data" message={error}/>
     }
 
     const postsPerPage = 3;

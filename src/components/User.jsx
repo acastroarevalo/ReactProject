@@ -10,7 +10,6 @@ export default function User(){
     const userData = useSelector(state => state.user);
     const loginStateData = useSelector(state => state.loginState);
     const userProgressData = useSelector(state => state.userProgress);
-    //console.log(userData);
 
     function handleLogout(){
         dispatch(userActions.logoutUser());
@@ -20,7 +19,7 @@ export default function User(){
 
     function handleEdit(){
         dispatch(loginStateActions.edit());
-        dispatch(userProgressActions.showLogin());
+        dispatch(userProgressActions.showSignUp());
     }
 
     function handleCloseUser(){
@@ -36,11 +35,10 @@ export default function User(){
         <p>Last Name: {loginStateData.loginStatus === '' ? undefined : userData.user.lastName}</p>
         <p>Email: {loginStateData.loginStatus === '' ? undefined : userData.user.email}</p>
         <p className="modal-actions">
-            <Button textOnly onClick={handleLogout}>Logout</Button>
-            <Button textOnly onClick={handleEdit}>Edit</Button>
+            <Button onClick={handleLogout}>Logout</Button>
+            <Button onClick={handleEdit}>Edit</Button>
             <Button textOnly onClick={handleCloseUser}>Close</Button>
-        </p>
-            
+        </p> 
         </Modal>
     )
 }
