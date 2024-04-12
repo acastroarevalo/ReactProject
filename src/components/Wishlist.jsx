@@ -3,7 +3,6 @@ import WishlistItem from "./WishlistItem";
 import Button from "./UI/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { userProgressActions } from "../redux-store/userProgressSlice";
-import { wishlistActions } from "../redux-store/wishlistSlice";
 import { cartActions } from "../redux-store/cartSlice";
 import useHttp from "../hooks/useHttp";
 
@@ -18,7 +17,6 @@ const requestConfigDelete = {
 export default function Wishlist(){
     const dispatch = useDispatch();
     const userProgressData = useSelector(state => state.userProgress);
-    const wishlistData = useSelector(state => state.wishlist);
     const userData = useSelector(state => state.user);
 
     const {
@@ -40,7 +38,6 @@ export default function Wishlist(){
 
     let uw = [];
     loadedWishlist.map(item => item.user.userId === userData.user.userId ? uw.push(item) : undefined);
-    console.log('uw', uw);
 
     function handleCloseWishlist(){
         dispatch(userProgressActions.hide());

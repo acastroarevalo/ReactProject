@@ -62,6 +62,7 @@ export default function ProductItem({product}){
         } else{
             sendRequest();
             clearData();
+            showNotification('Product added to Wishlist', 1500)
             window.location.reload(false);
         }
         //Duplicate Check

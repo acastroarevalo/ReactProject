@@ -1,9 +1,3 @@
-import { UserProgressContextProvider } from "./store/UserProgressContext";
-import { CartContextProvider } from "./store/CartContext";
-import { LoginStateContextProvider } from "./store/LoginStateContext";
-import { UserContextProvider } from "./store/UserContext";
-import { WishlistContextProvider } from "./store/WishlistContext";
-import { OrdersContextProvider } from "./store/OrderHistoryContext";
 import Header from "./components/Header";
 import Products from "./components/Products";
 import Cart from "./components/Cart";
