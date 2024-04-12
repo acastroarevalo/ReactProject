@@ -5,6 +5,7 @@ import { cartActions } from '../redux-store/cartSlice';
 import useHttp from '../hooks/useHttp';
 import NotificationBox from './UI/NotificationBox';
 import useNotification from '../hooks/useNotification';
+import { userProgressActions } from '../redux-store/userProgressSlice';
 
 const requestConfig = {
     method: 'POST',
@@ -18,6 +19,7 @@ const requestConfigGet = {}
 export default function ProductItem({product}){
     const dispatch = useDispatch();
     const userData = useSelector(state => state.user);
+    const loginStateData = useSelector(state => state.loginState);
 
     const {visible, text, showNotification} = useNotification();
 
@@ -68,6 +70,11 @@ export default function ProductItem({product}){
         //Duplicate Check
     }
 
+    function handleLogin(){
+        showNotification('You must login first', 1500)
+        dispatch(userProgressActions.showLogin());
+    }
+
     return(
         <li className="meal-item">
             <article>
@@ -78,8 +85,12 @@ export default function ProductItem({product}){
                     <p className="meal-item-description">{product.description}</p>
                 </div>
                 <p className="meal-item-actions">
-                    <Button onClick={handleAddProductToCart}>Add to Cart</Button>
-                    <Button onClick={handleAddProductToWishlist}>Add to Wishlist</Button>
+                    <Button onClick={() => loginStateData.loginStatus === '' ? handleLogin() : handleAddProductToCart()}>
+                        Add to Cart
+                    </Button>
+                    <Button onClick={() => loginStateData.loginStatus === '' ? handleLogin() : handleAddProductToWishlist()}>
+                        Add to Wishlist
+                    </Button>
                 </p>
                 <NotificationBox visible={visible} text={text}/>
             </article>
