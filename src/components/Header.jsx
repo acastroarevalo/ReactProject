@@ -1,6 +1,5 @@
 import logoImg from '../assets/logo.jpg'
 import Button from './UI/Button';
-import SearchBar from './UI/SearchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import { userProgressActions } from '../redux-store/userProgressSlice';
 
@@ -59,7 +58,6 @@ export default function Header() {
                 <Button textOnly onClick={handleAddProduct}>
                     Add Product
                 </Button>
-                <SearchBar/>
             </nav>
         </header>
     );
