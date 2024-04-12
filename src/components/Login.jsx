@@ -6,6 +6,8 @@ import { userActions } from "../redux-store/userSlice";
 import { loginStateActions } from "../redux-store/loginStateSlice";
 import { userProgressActions } from "../redux-store/userProgressSlice";
 import useHttp from "../hooks/useHttp";
+import useNotification from "../hooks/useNotification";
+import NotificationBox from "./UI/NotificationBox";
 
 const requestConfig = {};
 
@@ -13,9 +15,11 @@ export default function Login(){
     const dispatch = useDispatch();
     const userProgressData = useSelector(state => state.userProgress);
 
+    const {visible, text, showNotification} = useNotification();
+
     const {
         data: loadedData,
-        isLoading: loading,
+        isLoading: isSending,
         error: error} = useHttp('http://localhost:8080/shopcart/api/users', requestConfig, []);
 
     function handleLogin(){
@@ -49,8 +53,19 @@ export default function Login(){
             }));
             handleLogin();
         } else{
-            alert("Incorrect Password");
+            showNotification('Incorrect Password', 1500)
         }
+    }
+
+    let actions = (
+        <>
+            <Button>Login</Button>
+            <Button type="button" onClick={handleSignUp}>Sign Up</Button>
+            <Button type="button" textOnly onClick={handleClose}>Close</Button>
+        </>);
+
+    if (isSending){
+        actions = <span>Sending Data...</span>
     }
 
     return(
@@ -61,12 +76,12 @@ export default function Login(){
                 <h2>Login</h2>
                 <Input label="E-mail" type="email" id="email" />
                 <Input label="Password" type="text" id="password" />
+                {error && <Error title="Submission failed" message={error}/>}
                 <p className="modal-actions">
-                    <Button>Login</Button>
-                    <Button type="button" onClick={handleSignUp}>Sign Up</Button>
-                    <Button type="button" textOnly onClick={handleClose}>Close</Button>
+                    {actions}
                 </p>
             </form>
+            <NotificationBox visible={visible} text={text}/>
         </Modal>
     )
 }

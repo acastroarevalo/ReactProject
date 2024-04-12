@@ -15,7 +15,7 @@ export default function Products(){
         error: error} = useHttp('http://localhost:8080/shopcart/api/products', requestConfig, []);
 
     if(loading){
-        return <p className="center">Loading data...</p>
+        return <p className="center">Loading product data...</p>
     }
     
     if(error){

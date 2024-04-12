@@ -40,17 +40,13 @@ export default function Wishlist(){
 
     let uw = [];
     loadedWishlist.map(item => item.user.userId === userData.user.userId ? uw.push(item) : undefined);
-    //dispatch(wishlistActions.copyWishlist(uw));
-    //console.log(wishlistData.items);
-    /*console.log('loadedWishlist', loadedWishlist);
-    console.log('uw:', uw);*/
+    console.log('uw', uw);
 
     function handleCloseWishlist(){
         dispatch(userProgressActions.hide());
     }
 
     function handleClearWishlist(){
-        //dispatch(wishlistActions.clearWishlist());
         sendRequest();
         clearData();
         window.location.reload(false);
@@ -62,21 +58,6 @@ export default function Wishlist(){
           onClose={userProgressData.progress === 'wishlist' ? handleCloseWishlist : null}>
             <h2>Wishlist</h2>
             <ul>
-                {/*wishlistData.items.map((item) => (
-                    <WishlistItem
-                    key={item.productId}
-                    name={item.name}
-                    price={item.price}
-                    onAddToCart={() => dispatch(cartActions.addItem({
-                        productId: item.productId,
-                        name: item.name,
-                        price: item.price,
-                        description: item.description,
-                        image: item.image,
-                    }))}
-                    onDelete={() => dispatch(wishlistActions.removeItem(item.productId))} />
-                ))*/}
-
                 {uw.map((item) => (<WishlistItem
                  key={item.wishId} 
                  name={item.product.name} 

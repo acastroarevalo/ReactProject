@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { userProgressActions } from "../redux-store/userProgressSlice";
 import { ordersActions } from "../redux-store/ordersSlice";
 import { cartActions } from "../redux-store/cartSlice";
+import useNotification from "../hooks/useNotification";
+import NotificationBox from "./UI/NotificationBox";
 
 const requestConfig = {
     method: 'POST',
@@ -20,6 +22,8 @@ export default function Checkout() {
     const userProgressData = useSelector(state => state.userProgress);
     const cartData = useSelector(state => state.cart);
     const userData = useSelector(state => state.user);
+
+    const {visible, text, showNotification} = useNotification();
 
     const {
         data,
@@ -39,6 +43,7 @@ export default function Checkout() {
         dispatch(userProgressActions.hide());
         dispatch(cartActions.clearCart());
         clearData();
+        window.location.reload(false);
     }
 
     function handleSubmit(event){
@@ -56,7 +61,7 @@ export default function Checkout() {
                 })
             );
         } else{
-            alert("Incorrect Password");
+            showNotification('Incorrect Password', 1500)
         }
 
     }
@@ -93,6 +98,7 @@ export default function Checkout() {
                     {actions}
                 </p>
             </form>
+            <NotificationBox visible={visible} text={text}/>
         </Modal>
     )
 }

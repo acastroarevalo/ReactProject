@@ -13,22 +13,11 @@ export default function OrderHistory(){
     const userProgressData = useSelector(state => state.userProgress);
     const ordersData = useSelector(state => state.orders);
     const userData = useSelector(state => state.user);
-
+    
     const {
-        data: loadedProducts,
+        data: loadedOrders,
         isLoading: loading,
-        error: error} = useHttp('http://localhost:8080/shopcart/api/products', requestConfig, []);
-    
-    const {
-        data: loadedOrders} = useHttp('http://localhost:8080/shopcart/api/orders', requestConfig, []);
-
-    if(loading){
-        return <p className="center">Loading data...</p>
-    }
-    
-    if(error){
-        return <Error title="Failed to load data" message={error}/>
-    }
+        error: error} = useHttp('http://localhost:8080/shopcart/api/orders', requestConfig, []);
 
     let uo = [];
     loadedOrders.map(item => item.user.userId === userData.user.userId ? uo.push(item) : undefined);
@@ -64,6 +53,7 @@ export default function OrderHistory(){
                     orderQuantities={item.productsQuantity}
                     orderPrice={item.total}/>)}
             </ul>
+            {error && <Error title="Failed to load data" message={error}/>}
             <p className="modal-actions">
                 <Button textOnly onClick={handleCloseOrders}>Close</Button>
             </p>

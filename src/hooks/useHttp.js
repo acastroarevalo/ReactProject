@@ -36,7 +36,6 @@ export default function useHttp(url, config, initialData){
         if((config && (config.method === 'GET' || !config.method)) || !config){
             sendRequest();
         }
-        
     }, [sendRequest]);
 
     return {

@@ -287,7 +287,22 @@ h1 {
 
 .gridItem {
   text-align: center;
-  color: #afa699;
+}
+
+.notification {
+  z-index: 100;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 20%;
+  height: 8vh;
+  border-radius: 15px;
+  border-style: solid none solid none;
+  border-color: turquoise;
+  border-width: thick;
+
+  background-color: rgb(172, 166, 166);
+  color: rgb(0, 0, 0);
 }
 
 @keyframes fade-slide-up {
